@@ -155,6 +155,11 @@ her şeyi alır.
 - Kurallar, başlığın sadeleştirilmiş hâliyle eşleşen regex'lerdir: küçük harf, Türkçe
   harfler normalleştirilmiş (`ı/İ → i`, `ş → s`, …). Yani `kıdemli`, `KIDEMLİ` ile de eşleşir.
 - `llm.rule_weight`, kural puanının LLM puanına karşı ağırlığını belirler.
+- LLM "uygunluk" puanını kendisi vermez; küçük yerel modeller bunda güvenilir değil.
+  Yalnızca ilanı bir alana koyar (`software`, `ai_data`, `web`, `it`,
+  `other_technical`, `non_technical` ya da `unspecified`), puan da profilindeki
+  `target_categories` listesine göre hesaplanır. Deneyim şartı ve kesin şartlar yalnızca
+  ilanın tam metni varsa kontrol edilir; böylece model çıplak bir başlıktan şart uyduramaz.
 
 ## İlanın tam metnini okumak (isteğe bağlı, varsayılan kapalı)
 

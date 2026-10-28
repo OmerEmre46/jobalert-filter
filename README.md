@@ -161,6 +161,12 @@ awake. Missed runs are fine, because the next run picks up everything since the 
 - Rules are regexes matched against the title in folded form: lower case, Turkish
   letters normalised (`ı/İ → i`, `ş → s`, …). So `kıdemli` also matches `KIDEMLİ`.
 - `llm.rule_weight` sets how much the keyword score counts against the LLM score.
+- The LLM does not grade "fit" itself; small local models are unreliable at that.
+  It only files each job under a field (`software`, `ai_data`, `web`, `it`,
+  `other_technical`, `non_technical` or `unspecified`), and the score follows from
+  `target_categories` in your profile. Experience requirements and dealbreakers are
+  only checked when a full description is available, so the model can't invent them
+  from a bare title.
 
 ## Reading full job descriptions (optional, off by default)
 

@@ -20,6 +20,9 @@ dealbreakers:
   - Requires a completed degree or graduation before the internship
   - Requires 2+ years of professional experience
   - Unpaid full-time positions longer than 3 months
+# The LLM files each job under one of: software, ai_data, web, it, other_technical,
+# non_technical (or "unspecified"). These count as your field:
+target_categories: [software, ai_data, web, it]
 min_score: 60           # jobs at or above this final score count as matches
 
 rules:

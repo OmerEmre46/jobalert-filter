@@ -163,6 +163,10 @@ class Profile(BaseModel):
     skills: list[str] = Field(default_factory=list)
     target_roles: list[str] = Field(default_factory=list)
     dealbreakers: list[str] = Field(default_factory=list)
+    # Job categories the LLM may assign that count as your field; see filter/llm.py.
+    target_categories: list[
+        Literal["software", "ai_data", "web", "it", "other_technical", "non_technical"]
+    ] = Field(default_factory=lambda: ["software", "ai_data", "web", "it"])
     min_score: int = Field(60, ge=0, le=100)
     rules: RulesConfig = RulesConfig()
 

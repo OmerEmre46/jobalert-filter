@@ -107,7 +107,7 @@ class Pipeline:
                 stats.llm_skipped = True
             else:
                 fp = self.profile.fingerprint()
-                model = self.config.llm.model
+                model = self.scorer.cache_key
                 todo = [r for r in shortlisted
                         if rescore or self.store.needs_llm(r.job_id, model, fp,
                                                            bool(r.description))]

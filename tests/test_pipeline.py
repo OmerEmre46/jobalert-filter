@@ -35,13 +35,13 @@ def test_rules_only_scoring(config, profile, store):
     assert classify(rows["4011112222"], profile.min_score) == "match"
 
 
-def fake_ollama(score, calls):
+def fake_ollama(category, calls):
     def handler(request):
         if request.url.path == "/api/tags":
             return httpx.Response(200, json={"models": [{"name": "m:latest"}]})
         calls.append(json.loads(request.content))
-        reply = {"score": score, "verdict": "no", "reasons": ["Deneyim istiyor"],
-                 "missing_requirements": ["2 yıl deneyim"]}
+        reply = {"category": category, "level": "internship", "experience_required": False,
+                 "dealbreaker": ""}
         return httpx.Response(200, json={"message": {"content": json.dumps(reply)}})
     return handler
 
@@ -49,15 +49,17 @@ def fake_ollama(score, calls):
 def test_llm_scores_are_blended_and_cached(config, profile, store):
     config.llm = LlmConfig(enabled=True, model="m", rule_weight=0.3)
     calls = []
-    client = httpx.Client(base_url="http://o", transport=httpx.MockTransport(fake_ollama(20, calls)))
+    client = httpx.Client(base_url="http://o",
+                          transport=httpx.MockTransport(fake_ollama("non_technical", calls)))
     pipeline = Pipeline(config, profile, store, scorer=OllamaScorer(config.llm, profile,
                                                                     client=client))
     pipeline.ingest([make_raw_email()])
     pipeline.score()
     assert len(calls) == 2  # the senior job never reaches the LLM
     acme = rows_by_id(store)["4012345678"]
-    assert acme.llm_score == 20
-    assert acme.final_score == round(0.3 * acme.rule_score + 0.7 * 20)
+    assert acme.llm_score == 10
+    # SQLite rounds halves away from zero, Python's round() to even.
+    assert abs(acme.final_score - (0.3 * acme.rule_score + 0.7 * 10)) <= 0.5
     assert classify(acme, profile.min_score) == "no"
 
     pipeline.score()
