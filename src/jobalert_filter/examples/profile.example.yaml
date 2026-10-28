@@ -1,0 +1,99 @@
+# Copy to profile.yaml (`jobalert init` does this) and describe yourself.
+# The LLM reads everything above `rules`; `rules` drive the fast keyword filter.
+
+summary: >
+  3rd-year Computer Engineering student looking for a summer or part-time
+  internship in software development. Comfortable with Python and Java,
+  built Android and web side projects, interested in AI/data.
+department: Computer Engineering
+year_of_study: 3
+expected_graduation: 2028-06
+city: Istanbul
+languages: [Turkish (native), English (B2)]
+skills: [Python, Java, Kotlin, Android, SQL, Git, React, PyTorch]
+target_roles:
+  - Software engineering intern (backend)
+  - AI / data science intern
+  - Android developer intern
+  - Frontend / web developer intern
+dealbreakers:
+  - Requires a completed degree or graduation before the internship
+  - Requires 2+ years of professional experience
+  - Unpaid full-time positions longer than 3 months
+min_score: 60           # jobs at or above this final score count as matches
+
+rules:
+  # Regexes, matched case-insensitively against the job title with Turkish letters
+  # folded (ı→i, ş→s, ...), so "kıdemli" also matches "Kidemli".
+  reject_title:
+    - '\bsenior\b'
+    - '\bsr\.?\b'
+    - '\blead\b'
+    - '\bprincipal\b'
+    - '\bstaff\b'
+    - '\bmanager\b'
+    - '\bhead of\b'
+    - '\bdirector\b'
+    - '\barchitect\b'
+    - 'kıdemli'
+    - '\bmüdür'
+    - '\byönetici'
+    - '\d+\+? ?(years|yıl)'
+  level_title:
+    - '\bintern(ship)?\b'
+    - '\bstaj'
+    - '\bstajyer'
+    - '\btrainee\b'
+    - '\bjunior\b'
+    - '\bjr\.?\b'
+    - '\bentry[- ]level\b'
+    - '\bgraduate\b'
+    - 'yeni mezun'
+    - '\bpart[- ]time\b'
+    - '\bworking student\b'
+    - '\bco-?op\b'
+  require_level: false  # true = drop every title without an intern/junior signal
+  field_keywords:
+    - software
+    - yazılım
+    - developer
+    - geliştirici
+    - engineer
+    - mühendis
+    - backend
+    - frontend
+    - full[- ]?stack
+    - python
+    - java\b
+    - kotlin
+    - android
+    - mobile
+    - mobil
+    - web
+    - react
+    - '\bai\b'
+    - yapay zeka
+    - machine learning
+    - '\bml\b'
+    - data
+    - veri
+    - '\bcod(er|ing)\b'
+    - programmer
+    - yazılımcı
+    - information technology
+    - bilgi teknoloji
+    - bilgi işlem
+    - computer
+    - bilgisayar
+    - cloud
+    - devops
+    - siber
+    - cyber
+  reject_companies: []
+  # Not listed = −30 points (a district like "Tuzla" counts as not listed; add it
+  # if you want it). strict_location: true drops such jobs instead.
+  locations: [istanbul, türkiye, turkey]   # empty list = anywhere
+  strict_location: false
+  allow_remote: true
+  allow_hybrid: true
+  allow_onsite: true

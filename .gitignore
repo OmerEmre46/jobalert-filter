@@ -1,0 +1,30 @@
+# Personal configuration and secrets — never commit these
+.env
+config.yaml
+profile.yaml
+.jobalert/
+
+# Runtime data: database, raw email samples, logs, generated reports
+data/
+output/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+
+# Local tooling (contains machine-specific paths)
+.claude/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

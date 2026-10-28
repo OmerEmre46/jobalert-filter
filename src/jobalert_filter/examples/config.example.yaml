@@ -1,0 +1,52 @@
+# Copy to config.yaml (`jobalert init` does this) and edit.
+# Secrets do NOT go here — the mail password belongs in .env.
+
+language: tr            # tr | en — report, digest and LLM explanations
+
+mail:
+  provider: gmail       # gmail | outlook | imap
+  address: you@example.com
+  folders: [INBOX]      # Gmail: add "[Gmail]/All Mail" if alerts skip the inbox
+  # Who the alerts come from. Add your own old address if you forward alerts by hand;
+  # emails forwarded as attachments are unpacked.
+  sender_filter: [linkedin.com]
+  # Outlook / Hotmail / Live only — see README "Outlook setup":
+  # ms_client_id: 00000000-0000-0000-0000-000000000000
+  # Any other provider (provider: imap):
+  # imap_host: imap.example.com
+  # imap_port: 993
+  # smtp_host: smtp.example.com
+  # smtp_port: 587
+
+fetch:
+  initial_days: 14      # how far back the very first run looks
+  max_messages: 500
+
+llm:
+  enabled: true         # runs without an LLM too (rule score only)
+  base_url: http://localhost:11434
+  model: qwen2.5:7b-instruct
+  rule_weight: 0.3      # final = rule_weight * rule_score + (1 - rule_weight) * llm_score
+
+enrich:
+  # Fetches the full description of shortlisted jobs from the PUBLIC job page so the
+  # LLM can check requirements. LinkedIn's User Agreement restricts automated access;
+  # enable only if you accept that risk yourself. Rate-limited, never logs in.
+  enabled: false
+  delay_seconds: 5
+  max_per_run: 20
+
+output:
+  directory: output
+  report_file: report.html
+  tracker_file: tracker.csv
+  show_rejected: true
+
+digest:
+  enabled: false        # send yourself one summary email per day
+  # to: you@example.com # defaults to mail.address
+  top_n: 15
+
+database: data/jobalert.db
+log_file: data/jobalert.log
+token_cache: .jobalert/msal_token_cache.json

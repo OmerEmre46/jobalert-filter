@@ -1,0 +1,3 @@
+* text=auto
+# Email fixtures must stay byte-for-byte as captured (MIME line endings, encodings).
+*.eml binary

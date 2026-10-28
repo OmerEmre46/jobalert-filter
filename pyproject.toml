@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jobalert-filter"
+version = "0.1.0"
+description = "Filter job-alert emails (LinkedIn and others) against your own profile with rules and a local LLM."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [{ name = "OmerEmre46" }]
+keywords = ["job-search", "internship", "email", "imap", "ollama", "llm", "automation"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Communications :: Email",
+    "Topic :: Office/Business",
+]
+dependencies = [
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+    "jinja2>=3.1",
+    "httpx>=0.27",
+    "typer>=0.12",
+    "msal>=1.28",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+jobalert = "jobalert_filter.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jobalert_filter"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+# Fixtures embed long HTML lines verbatim.
+"tests/*" = ["E501"]
